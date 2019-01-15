@@ -1,6 +1,9 @@
 # Used to track formulae that cannot be installed at the same time.
 FormulaConflict = Struct.new(:name, :reason)
 
+# Used to track the licensing information of each formula
+FormulaLicense = Struct.new(:name, :url)
+
 # Used to annotate formulae that duplicate macOS provided software
 # or cause conflicts when linked in.
 class KegOnlyReason

@@ -186,9 +186,14 @@ module Homebrew
     puts "#{f.full_name}: #{specs * ", "}#{" [#{attrs * ", "}]" unless attrs.empty?}"
     puts f.desc if f.desc
 
-    unless f.license.empty?
-      puts f.license.name if f.license.name
-      puts f.license.url if f.license.url
+    licenses = f.licenses.map do |l|
+      "#{l.name}: #{l.url}"
+    end.sort!
+    unless licenses.empty?
+      puts <<~EOS
+        Licensed under:
+          #{licenses.join("\n ")}
+      EOS
     end
 
     puts Formatter.url(f.homepage) if f.homepage

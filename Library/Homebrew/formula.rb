@@ -1520,6 +1520,11 @@ class Formula
     self.class.conflicts
   end
 
+  # @private
+  def licenses
+    self.class.licenses
+  end
+
   # Returns a list of Dependency objects in an installable order, which
   # means if a depends on b then b will be ordered before a in this list
   # @private
@@ -1631,6 +1636,7 @@ class Formula
                                                 .uniq,
       "requirements"             => [],
       "conflicts_with"           => conflicts.map(&:name),
+      "license_info"             => licenses.map(&:name),
       "caveats"                  => caveats,
       "installed"                => [],
       "linked_keg"               => linked_version&.to_s,
@@ -2458,6 +2464,18 @@ class Formula
     def conflicts_with(*names)
       opts = names.last.is_a?(Hash) ? names.pop : {}
       names.each { |name| conflicts << FormulaConflict.new(name, opts[:because]) }
+    end
+
+    # @private
+    def licenses
+      @licenses ||= []
+    end
+
+    # The formula's licensing information
+    # <pre>license_info "BSD 2-Clause", :url => "https://github.com/Homebrew/brew/blob/master/LICENSE.txt"</pre>
+    def license_info(*licenses)
+      opts = licenses.last.is_a?(Hash) ? licenses.pop : {}
+      licences.each { |license| licenses << FormulaLicense.new(license, opts[:url]) }
     end
 
     def skip_clean(*paths)
