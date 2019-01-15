@@ -185,6 +185,12 @@ module Homebrew
 
     puts "#{f.full_name}: #{specs * ", "}#{" [#{attrs * ", "}]" unless attrs.empty?}"
     puts f.desc if f.desc
+
+    unless f.license.empty?
+      puts f.license.name if f.license.name
+      puts f.license.url if f.license.url
+    end
+
     puts Formatter.url(f.homepage) if f.homepage
 
     conflicts = f.conflicts.map do |c|
